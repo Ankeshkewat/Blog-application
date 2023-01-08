@@ -8,7 +8,8 @@ let otp;
 async function createAccout(){
     let email=document.getElementById('email').value
     let password=document.getElementById('password').value
-    let form={email,password};
+    let role=document.getElementById('role').value
+    let form={email,password,role};
     let res=await fetch('http://localhost:1000/signup',{
         method:'POST',
         body:JSON.stringify(form),

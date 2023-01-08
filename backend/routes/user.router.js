@@ -22,15 +22,15 @@ UserRouter.get('/', (req, res) => {
 
 //signup
 UserRouter.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
-    console.log(email, password)
+    const { email, password,role } = req.body;
+   // console.log(email, password ,role)
     bcrypt.hash(password, 6, async function (err, hash) {
         if (err) {
             res.status(500).send({ 'msg': "Something went wrong" })
         }
         else {
             try {
-                let user = new UserModel({ email, password: hash });
+                let user = new UserModel({ email, password: hash ,role});
                 await user.save();
                 let otp = Math.floor(Math.random()*10000);
                 console.log(otp)
@@ -87,9 +87,11 @@ UserRouter.post('/verify',async (req,res)=>{
          if(data.length>0){
            try{
             const {email}=req.body;
-            let data= await UserModel.find({email});
-            const token = jwt.sign({ id: data._id }, process.env.secret, { expiresIn: '4 days' })
-            const refreshtoken = jwt.sign({ id: data._id }, process.env.refresh, { expiresIn: '7 days' })
+            let data= await UserModel.findOne({email});
+            const token = jwt.sign({ id: data._id,role:data.role }, process.env.secret, { expiresIn: '4 days' })
+            console.log(data.role)
+            req.body.userRole=data.role
+            const refreshtoken = jwt.sign({ id: data._id,role:data.role}, process.env.refresh, { expiresIn: '7 days' })
             res.status(201).send({"msg":"Account Created Successfully","token":token,'refreshtoken':refreshtoken})
            }catch(er){
             console.log(er);

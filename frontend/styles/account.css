@@ -6,7 +6,9 @@
     border: 1px solid red;
 }
 #form input,
-#form button{
+#form button,
+#form select
+{
    width: 100%;
    box-sizing: border-box;
    margin-top: 3%;

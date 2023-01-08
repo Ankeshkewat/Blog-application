@@ -11,6 +11,7 @@ const authanticate = (req, res, next) => {
 //   console.log(token)
    if (token) {
         if(blacklist.includes(token)){
+         console.log("Login again")
         return res.status(401).send({'msg':"Login again"})
         }
       jwt.verify(token, process.env.secret, async function (err, decoded) {
@@ -19,6 +20,10 @@ const authanticate = (req, res, next) => {
             res.status(401).send({ 'msg': 'Session expired' })
          }
          else if (decoded) {
+            console.log(decoded)
+           const role=decoded?.role;
+           console.log(role)
+           req.body.userRole=role
             next()
          }
       })
