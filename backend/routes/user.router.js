@@ -42,9 +42,9 @@ UserRouter.post('/signup', async (req, res) => {
                         type: 'OAuth2',
                         user: process.env.email,
                         pass: process.env.password,
-                        clientId: '760013572935-kf6pgg2cl7gu7j2i5sr1a67fq3ihc5bd.apps.googleusercontent.com',
-                        clientSecret: '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',
-                        refreshToken: "1//04fCL-S-poCNeCgYIARAAGAQSNwF-L9IrlKnnOdiaJY1VQwjSd3n0bJW9_oROAIOEs9qbfjg8HHIA8kgl2E7Pz-ceF5xxfwSxrLs"
+                        clientId: process.env.clientId,
+                        clientSecret: process.env.clientSecret,
+                        refreshToken: process.env.refreshToken
                     }
                 });
 
