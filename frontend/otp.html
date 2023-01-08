@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/account.css">
+</head>
+<body>
+    <header>
+        <h1>My Blog</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="#">About</a>
+          <a href="blog.html">Create Blog</a>
+          <a href="signUp.html">Create Account</a>
+          <a href=""><button>Logout</button></a>
+        </nav>
+      </header>
+
+        <div id="form">
+            <h2>Enter 4 digits otp</h2>
+        <input type="number" placeholder="Enter otp" name="" id="otp">
+            <button onclick="OTPFUN()" id="Check">Check</button>
+            <p><a href="signUp.html">Resend Otp</a></p>
+        </div>
+        
+</body>
+</html>
+<script >
+    // let otp= window.prompt('Please enter 4 digits otp');
+   async function OTPFUN(){
+    let otp=document.getElementById('otp').value;
+    let email=localStorage.getItem('email')||null
+    let form={otp,email}
+
+       
+       let otp_res=await fetch('http://localhost:1000/verify',{
+         method:"POST",
+         body:JSON.stringify(form),
+         headers:{
+             'Content-Type':'application/json'
+         }
+       })
+       let otp_stream=await otp_res.json();
+       alert(otp_stream.msg)
+       if(otp_stream.msg=='Account Created Successfully'){
+        localStorage.setItem('token',otp_stream.token)
+        localStorage.setItem('refreshtoken',otp_stream.refreshtoken)
+
+       window.location.href='index.html'
+       }
+   }
+ 
+</script>

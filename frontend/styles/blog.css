@@ -1,0 +1,29 @@
+#main{
+    width: 40%;
+    text-align: center;
+    border: 2px dashed rgb(80, 80, 16);
+    margin: auto;
+}
+#main input,textarea{
+    width: 100%;
+    margin-top: 20px;
+    box-sizing: border-box;
+
+}
+input{
+    height: 30px;
+    box-sizing: border-box;
+}
+#main h1{
+    text-align: left;
+}
+#main button{
+    padding: 10px;
+    font-size: 15px;
+    width: 30%;
+}
+#blog_div{
+    border: 2px solid gray;
+    width: 80%;
+    margin: auto;
+}
