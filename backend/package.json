@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "email":"nodemon email.js",
+    "email": "nodemon email.js",
     "server": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "ioredis": "^5.2.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.2",
     "node-fetch": "^3.3.0",

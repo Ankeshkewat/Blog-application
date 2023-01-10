@@ -6,6 +6,15 @@ require('dotenv').config()
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 
+
+const Redis=require('ioredis');
+const redis=new Redis({
+    port:12565,
+    host:'redis-12565.c301.ap-south-1-1.ec2.cloud.redislabs.com',
+    password:"rgE5ofgZDJnKcl81YQAxPrei0b8nphdQ",
+})
+
+
 const blacklist = fs.readFileSync('./blacklist.json', 'utf-8')
 
 const UserRouter = express.Router()
@@ -89,6 +98,7 @@ UserRouter.post('/verify',async (req,res)=>{
             const {email}=req.body;
             let data= await UserModel.findOne({email});
             const token = jwt.sign({ id: data._id,role:data.role }, process.env.secret, { expiresIn: '4 days' })
+            redis.set('token',token)
             console.log(data.role)
             req.body.userRole=data.role
             const refreshtoken = jwt.sign({ id: data._id,role:data.role}, process.env.refresh, { expiresIn: '7 days' })
@@ -160,11 +170,10 @@ UserRouter.get('/getnewtoken', (req, res) => {
 
 })
 //logout
-UserRouter.get('/logout', async (req, res) => {
-    const token = req.headers?.authorization?.split(' ')[1] || req.cookies.token
-    const blacklistData = JSON.parse(blacklist)
-    blacklistData.push(token);
-    fs.writeFileSync('./blacklist.json', JSON.stringify(blacklistData))
+UserRouter.get('/logout',authanticate, async (req, res) => {
+    // const token = req.headers?.authorization?.split(' ')[1] || req.cookies.token
+    const token = req.body.token
+   redis.set('blacklist',token)
     res.send({ "msg": "User logout succesfully" })
 })
-module.exports = { UserRouter }
+module.exports = { UserRouter,redis }
